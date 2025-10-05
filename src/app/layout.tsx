@@ -2,11 +2,13 @@ import type { ReactNode } from 'react';
 
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import Link from 'next/link';
 
 import { ThemeProvider } from 'next-themes';
 
-import NavigationBar from '@/app/(delete-this-and-modify-page.tsx)/NavigationBar';
 import '@/app/globals.css';
+import PwaRegister from '@/app/pwa-register';
+import BottomNav from '@/components/bottom-nav';
 import { Toaster } from '@/registry/new-york-v4/ui/sonner';
 
 const geistSans = localFont({
@@ -33,8 +35,23 @@ const Layout = ({ children }: Readonly<{ children: ReactNode }>) => {
             <body
                 className={`${geistSans.variable} ${geistMono.variable} bg-background text-foreground overscroll-none antialiased`}>
                 <ThemeProvider attribute='class'>
-                    <NavigationBar />
+                    <link rel='manifest' href='/manifest.webmanifest' />
+                    <meta name='theme-color' content='#0a0a0a' />
+                    <header className='bg-background/80 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 hidden border-b backdrop-blur sm:block'>
+                        <div className='mx-auto flex max-w-screen-xl items-center justify-between px-4 py-3'>
+                            <Link href='/' className='font-semibold'>
+                                Home Buying Assistant
+                            </Link>
+                            <nav className='flex items-center gap-4 text-sm'>
+                                <Link href='/scenario/new'>New Scenario</Link>
+                                <Link href='/compare'>Compare</Link>
+                                <Link href='/settings'>Settings</Link>
+                            </nav>
+                        </div>
+                    </header>
                     {children}
+                    <BottomNav />
+                    <PwaRegister />
                     <Toaster />
                 </ThemeProvider>
             </body>
